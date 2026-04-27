@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Pickup</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; }
+        form { background: white; padding: 20px; width: 300px; margin: auto; }
+        input, textarea { width: 100%; margin-bottom: 10px; }
+        button { background: green; color: white; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Request Waste Pickup</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="location" placeholder="Location" required>
+    <input type="text" name="waste_type" placeholder="Waste Type" required>
+    <textarea name="description" placeholder="Description"></textarea>
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

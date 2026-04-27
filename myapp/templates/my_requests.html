@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Requests</title>
+</head>
+<body>
+
+<h2>My Pickup Requests</h2>
+
+<table border="1">
+    <tr>
+        <th>Location</th>
+        <th>Waste Type</th>
+        <th>Status</th>
+    </tr>
+
+    {% for r in requests %}
+    <tr>
+        <td>{{ r.location }}</td>
+        <td>{{ r.waste_type }}</td>
+        <td>{{ r.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
