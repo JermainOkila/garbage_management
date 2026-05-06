@@ -1,27 +1,86 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Requests</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h2>My Pickup Requests</h2>
+{% block title %}My Requests - Garbage Collection System{% endblock %}
 
-<table border="1">
-    <tr>
-        <th>Location</th>
-        <th>Waste Type</th>
-        <th>Status</th>
-    </tr>
+{% block content %}
+    <div>
+        <h2>📋 My Pickup Requests</h2>
+        <p style="color: #7f8c8d; margin-bottom: 2rem;">Track all your waste pickup requests here</p>
 
-    {% for r in requests %}
-    <tr>
-        <td>{{ r.location }}</td>
-        <td>{{ r.waste_type }}</td>
-        <td>{{ r.status }}</td>
-    </tr>
-    {% endfor %}
-</table>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
 
-</body>
-</html>
+        {% if requests %}
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>📍 Location</th>
+                            <th>🗑️ Waste Type</th>
+                            <th>📝 Description</th>
+                            <th>📊 Status</th>
+                            <th>⚙️ Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in requests %}
+                            <tr>
+                                <td>{{ r.location }}</td>
+                                <td>{{ r.waste_type|title }}</td>
+                                <td>
+                                    {% if r.description %}
+                                        {{ r.description|truncatewords:5 }}
+                                    {% else %}
+                                        <span style="color: #bdc3c7;">--</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if r.status == "completed" %}
+                                        <span class="badge badge-success">✓ Completed</span>
+                                    {% elif r.status == "pending" %}
+                                        <span class="badge badge-pending">⏳ Pending</span>
+                                    {% elif r.status == "cancelled" %}
+                                        <span class="badge badge-cancelled">✕ Cancelled</span>
+                                    {% else %}
+                                        <span class="badge badge-pending">{{ r.status|title }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">View</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="card" style="text-align: center; padding: 3rem; background-color: #f8f9fa;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🗑️</div>
+                <h3 style="color: #7f8c8d;">No Requests Yet</h3>
+                <p style="color: #95a5a6; margin-bottom: 2rem;">You haven't created any pickup requests yet.</p>
+                <a href="/request-pickup/" class="btn btn-primary">Create First Request</a>
+            </div>
+        {% endif %}
+
+        <!-- Quick Stats -->
+        <div class="welcome-grid" style="margin-top: 3rem;">
+            <div class="welcome-card">
+                <div style="font-size: 2rem; color: #2ecc71;">{{ requests|length }}</div>
+                <p>Total Requests</p>
+            </div>
+            <div class="welcome-card">
+                <div style="font-size: 2rem; color: #27ae60;">{{ requests|dictsort:"status"|last }}</div>
+                <p>Latest Status</p>
+            </div>
+            <div class="welcome-card">
+                <div style="font-size: 2rem; color: #3498db;">✓</div>
+                <p>Ready to Request More?</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

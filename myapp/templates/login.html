@@ -1,6 +1,59 @@
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="username">
-    <input type="password" name="password">
-    <button type="submit">Login</button>
-</form>
+{% extends "base.html" %}
+
+{% block title %}Login - Garbage Collection System{% endblock %}
+
+{% block content %}
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2 style="text-align: center; border-bottom: none; display: block; margin-top: 0;">Login</h2>
+            <p style="text-align: center; color: #7f8c8d; margin-bottom: 2rem;">Sign in to your account</p>
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-error">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_username">Username</label>
+                    <input 
+                        type="text" 
+                        name="username" 
+                        id="id_username"
+                        placeholder="Enter your username"
+                        required
+                        autofocus
+                    >
+                    {% if form.username.errors %}
+                        <small style="color: #e74c3c;">{{ form.username.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password">Password</label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="id_password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                    {% if form.password.errors %}
+                        <small style="color: #e74c3c;">{{ form.password.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 1.5rem; color: #7f8c8d;">
+                Don't have an account? <a href="/register/" style="color: #2ecc71; font-weight: 600;">Create one</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

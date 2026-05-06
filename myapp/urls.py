@@ -7,5 +7,6 @@ urlpatterns = [
     path('request/', views.request_pickup, name='request'),
     path('my-requests/', views.my_requests, name='my_requests'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     # path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 ]

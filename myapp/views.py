@@ -31,3 +31,4 @@ def my_requests(request):
     return render(request, 'my_requests.html', {'requests': requests})
 def home(request):
     return render(request, 'home.html')
+
